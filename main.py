@@ -1,4 +1,4 @@
-
+import time
 
 level10 = False
 
@@ -13,7 +13,10 @@ def spel():
         elif var == "2":
             pass
         elif var == "3":
-            pass
+            print("Du utforskar labyrinten...")
+            time.sleep(100)
+            print("Du påkommer tre dörrar. Vilken dörr väljer du?")
+            #Lägg till ASCII konst för dörrar
         else:
             pass
 
