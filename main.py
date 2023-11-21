@@ -1,4 +1,5 @@
 
+
 level10 = False
 
 def spel():
@@ -34,3 +35,4 @@ def start():
     else:
         print("Inte ett giltigt val!")
 start()
+
