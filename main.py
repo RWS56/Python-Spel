@@ -1,15 +1,17 @@
 import time
 import random
+from os import system
 level10 = False
 
 class player():
     def __init__(self, strength, hp, inventory, level):
-        self.strength = 3
-        self.hp = 3
+        self.strength = strength
+        self.hp = hp
         self.inventory = []
-        self.level = 0
+        self.level = level
 
 class Item():
+    """Ja tack"""
     def __init__(self, itemName, itemDescription, strengthBonus, healthBonus, defenseBonus):
         self.itemName = itemName
         self.itemDescription = itemDescription
@@ -18,9 +20,14 @@ class Item():
         self.defenseBonus = defenseBonus
 
 def AnimatePrint(string: str):
+    """Skriver ut bokstäver med en tidsenhets mellanrum"""
     for char in string:
         print(char, end="")
-        time.sleep(0.03)
+        time.sleep(.03)
+    print()
+
+def clearConsole():
+    system("cls || clear")
 
 def inventory():
     print("""
@@ -39,14 +46,12 @@ def showCredits():
     pass
 
 def start():
-    print("1. Starta äventyret")
-    print("2. Credits")
-    print("3. Avsluta äventyret")
+    AnimatePrint("""1. Starta äventyret\n2. Credits\n3. Avsluta äventyret""")
     var = input("Ditt val:")
     if var == "1":
         spel()
     elif var == "2":
-        credit()
+        showCredits()
     elif var == "3":
         exit()
     else:
@@ -54,25 +59,21 @@ def start():
 start()
 
 def monster():
-    monsterstrength = rand.int(4, 10)
+    monsterstrength = random.int(4, 10)
     return monsterstrength
 
 def kista():
-    itemname = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat"]
-    itemselect = rand.int(0, 7)
-    itemname[itemselect]
+    itemNames = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat"]
+    selectedItem = random.randint(0, len(itemNames))
+    itemName = itemNames[selectedItem]
 
-    strength_bonus = rand.int(1, 10)
-
-    
+    item = Item(itemName, None, random.randint(1, 10), random.randint(1, 10), random.randint(1, 10))
     
 def fälla():
     pass
 
-
-
 def room():
-    var = rand.int(1, 3)
+    var = random.int(1, 3)
     if var == 1:
         pass
     elif var == 2:
@@ -81,12 +82,6 @@ def room():
         pass
     else:
         pass
-
-def AnimatePrint(string: str):
-    for char in string:
-        print(char, end=" ")
-        time.sleep(40)
-
 
 def spel():
     while level10 == False:
