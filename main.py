@@ -36,3 +36,10 @@ def start():
         print("Inte ett giltigt val!")
 start()
 
+class player():
+    def __init__(self, strength, hp, inventory, level):
+        self.strength = 3
+        self.hp = 3
+        self.inventory = None #Lägger till items och så senare
+        self.level = 0
+
