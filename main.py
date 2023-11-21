@@ -46,3 +46,10 @@ class player():
         self.inventory = None #Lägger till items och så senare
         self.level = 0
 
+class Item():
+    def __init__(self, itemName, itemDescription, strengthBonus, healthBonus, defenseBonus):
+        self.itemName = itemName
+        self.itemDescription = itemDescription
+        self.strengthBonus = strengthBonus
+        self.healthBonus = healthBonus
+        self.defenseBonus = defenseBonus
