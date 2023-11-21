@@ -20,7 +20,7 @@ class Item():
 def AnimatePrint(string: str):
     for char in string:
         print(char, end="")
-        time.sleep(0.15)
+        time.sleep(0.03)
 
 def inventory():
     print("""
@@ -61,19 +61,24 @@ def kista():
     itemname = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat"]
     itemselect = rand.int(0, 7)
     itemname[itemselect]
-def fälla():
 
+    strength_bonus = rand.int(1, 10)
+
+    
+    
+def fälla():
+    pass
 
 
 
 def room():
     var = rand.int(1, 3)
     if var == 1:
-
+        pass
     elif var == 2:
-
+        pass
     elif var == 3:
-
+        pass
     else:
         pass
 

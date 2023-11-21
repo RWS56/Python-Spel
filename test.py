@@ -10,9 +10,5 @@ import time
 def AnimatePrint(string: str):
     for char in string:
         print(char, end="")
-        time.sleep(0.15)
+        time.sleep(0.03)
 
-AnimatePrint("""HEJSAN
-             JAG
-             HETER
-             RUBEN!""")
