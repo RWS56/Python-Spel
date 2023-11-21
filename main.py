@@ -1,27 +1,20 @@
 import time
-
+import random
 level10 = False
 
-def spel():
-    while level10 == False:
-        print("1. Förråd")
-        print("2. Statistic")
-        print("3. Utforska")
-        var = input("Ditt val:")
-        if var == "1":
-            pass
-        elif var == "2":
-            pass
-        elif var == "3":
-            print("Du utforskar labyrinten...")
-            time.sleep(100)
-            print("Du påkommer tre dörrar. Vilken dörr väljer du?")
-            #Lägg till ASCII konst för dörrar
-        else:
-            pass
+def inventory():
+    print("""
+    1. Stäng inventory
+    2. Val av föremål     
+    """)
+    val1 = input("Val: ")
+    if val1 == "1":
+        spel()
+    elif val1 == "2":
+        
 
 
-def credit():
+def showCredits():
     pass
 
 def start():
@@ -43,7 +36,7 @@ class player():
     def __init__(self, strength, hp, inventory, level):
         self.strength = 3
         self.hp = 3
-        self.inventory = None #Lägger till items och så senare
+        self.inventory = []
         self.level = 0
 
 class Item():
@@ -53,3 +46,23 @@ class Item():
         self.strengthBonus = strengthBonus
         self.healthBonus = healthBonus
         self.defenseBonus = defenseBonus
+
+def spel():
+    while level10 == False:
+        print("1. Förråd")
+        print("2. Statistic")
+        print("3. Utforska")
+        var = input("Ditt val:")
+        if var == "1":
+            inventory()
+        elif var == "2":
+            pass
+        elif var == "3":
+            print("Du utforskar labyrinten...")
+            time.sleep(100)
+            print("Du påkommer tre dörrar. Vilken dörr väljer du?")
+            #Lägg till ASCII konst för dörrar
+            var = input("Ditt val: ")
+            room()
+        else:
+            pass
