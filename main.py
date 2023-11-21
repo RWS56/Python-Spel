@@ -1,6 +1,21 @@
 
+level10 = False
+
 def spel():
-    pass
+    while level10 == False:
+        print("1. Förråd")
+        print("2. Statistic")
+        print("3. Utforska")
+        var = input("Ditt val:")
+        if var == "1":
+            pass
+        elif var == "2":
+            pass
+        elif var == "3":
+            pass
+        else:
+            pass
+
 
 def credit():
     pass
