@@ -19,12 +19,13 @@ class Item():
         self.healthBonus = healthBonus
         self.defenseBonus = defenseBonus
 
-def AnimatePrint(string: str):
+def AnimatePrint(string: str, newLine = True):
     """Skriver ut bokstäver med en tidsenhets mellanrum"""
     for char in string:
         print(char, end="")
         time.sleep(.03)
-    print()
+    if newLine:
+        print()
 
 def clearConsole():
     system("cls || clear")
@@ -41,13 +42,13 @@ def inventory():
        print("")
        val_av_föremål = input() 
 
-
 def showCredits():
     pass
 
 def start():
     AnimatePrint("""1. Starta äventyret\n2. Credits\n3. Avsluta äventyret""")
-    var = input("Ditt val:")
+    AnimatePrint("Ditt val: ", False)
+    var = input()
     if var == "1":
         spel()
     elif var == "2":
