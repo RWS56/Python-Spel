@@ -169,7 +169,7 @@ def room():
 def spel():
     
     AnimatePrint("1. Förråd")
-    AnimatePrint("2. Statistic")
+    AnimatePrint("2. Statistik")
     AnimatePrint("3. Utforska")
     AnimatePrint("Ditt val: ", False)
     var = input()
@@ -184,7 +184,7 @@ def spel():
             AnimatePrint()
                      
     elif var == "2":
-        pass
+        AnimatePrint()
     elif var == "3":
         AnimatePrint("Du utforskar labyrinten...")
         time.sleep(100)
@@ -193,7 +193,7 @@ def spel():
         var = input("Ditt val: ", False)
         room()
     else:
-        pass
+        pass§
     
 #Början av spelet
 def start():
@@ -210,6 +210,12 @@ def start():
             exit()
     except TypeError as error:
         print("Inte ett giltigt val!")
+
+#testspelare (avmarkea kommentar för att testa)        
+#spelare = player("hej", 1, 1, 0)        
+
+#Startkommando för att sätta igång spelet (OBS MÅSTE ALLTID VARA SIST I KODEN!!!!!!)        
+#start()
 
 #rubensTestSpelare = player("Hej", 1, 1, 0)
 #rubensTestSpelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
