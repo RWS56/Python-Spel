@@ -154,6 +154,9 @@ def win():
 def showCredits():
     clearConsole()
     AnimatePrint("Skapad av: Sarah, Ruben, Ye")
+    AnimatePrint("Tryck något för att återvända")
+    input()
+    start()
 
 def generateItem():
     itemNames = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat", "spjut"]
@@ -218,7 +221,7 @@ def start():
 #spelare = Player("hej", 1, 1, 0)        
 
 #Startkommando för att sätta igång spelet (OBS MÅSTE ALLTID VARA SIST I KODEN!!!!!!)        
-#start()
+start()
 
 #rubensTestSpelare = Player("Hej", 1, 1, 0)
 #rubensTestSpelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
