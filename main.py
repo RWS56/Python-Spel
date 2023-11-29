@@ -5,7 +5,7 @@ import sys
 import asciiart
 from asciiart import *
 level10 = False
-class player():
+class Player():
     """
     En klass för spelaren\n
     Innehållande funktioner:\n
@@ -42,13 +42,14 @@ class player():
             self.inventory.pop(indexPlusOne - 1)
     
     def showInventory(self):
+        clearConsole()
         if len(self.inventory) == 0:
             AnimatePrint("Du har inga items :(")
         else:
             AnimatePrint("Inventory:")
             i = 1
             for item in self.inventory:
-                AnimatePrint(f"[{i}]{item.itemName}") #Eventuellt sätt newLine till false
+                AnimatePrint(f"[{i}]{item.itemName} ", False) #Eventuellt sätt newLine till false
                 i += 1
     
     def takeDamage(self, damage):
@@ -168,7 +169,7 @@ def room():
     var = random.randint(0, 2)
     rooms = []
     
-def spel():
+def spel(currentPlayer: Player):
     
     AnimatePrint("1. Förråd")
     AnimatePrint("2. Statistik")
@@ -214,12 +215,12 @@ def start():
         print("Inte ett giltigt val!")
 
 #testspelare (avmarkea kommentar för att testa)        
-#spelare = player("hej", 1, 1, 0)        
+#spelare = Player("hej", 1, 1, 0)        
 
 #Startkommando för att sätta igång spelet (OBS MÅSTE ALLTID VARA SIST I KODEN!!!!!!)        
 #start()
 
-#rubensTestSpelare = player("Hej", 1, 1, 0)
+#rubensTestSpelare = Player("Hej", 1, 1, 0)
 #rubensTestSpelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
 #rubensTestSpelare.addToInventory(Item("Svärd2", 1, 1, 1, 1))
 #rubensTestSpelare.addToInventory(Item("Svärd7", 1, 1, 1, 1))
