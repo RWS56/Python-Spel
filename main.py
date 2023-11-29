@@ -84,11 +84,8 @@ class player():
                 if var == "Nej":
                     AnimatePrint("Välj bort ett Item att kasta:")
                     self.showInventory()
-                    
                     var = input()
-                    var -= 1
-                    #Lägg till error handling för när man kollar inventory
-                    pass
+                    self.removeFromInventory(var)
                       
         elif var == "Nej":
             pass
@@ -152,21 +149,7 @@ def win():
 def showCredits():
     AnimatePrint("Skapad av: Sarah, Ruben, Ye")
 
-#Början av spelet
-def start():
-    clearConsole()
-    AnimatePrint("""1. Starta äventyret\n2. Credits\n3. Avsluta äventyret""")
-    AnimatePrint("Ditt val: ", False)
-    var = input()
-    try:
-        if var == "1":
-            spel()
-        elif var == "2":
-            showCredits()
-        elif var == "3":
-            exit()
-    except TypeError as error:
-        print("Inte ett giltigt val!")
+
 
 
 def generateItem():
@@ -211,11 +194,27 @@ def spel():
         room()
     else:
         pass
+    
+#Början av spelet
+def start():
+    clearConsole()
+    AnimatePrint("""1. Starta äventyret\n2. Credits\n3. Avsluta äventyret""")
+    AnimatePrint("Ditt val: ", False)
+    var = input()
+    try:
+        if var == "1":
+            spel()
+        elif var == "2":
+            showCredits()
+        elif var == "3":
+            exit()
+    except TypeError as error:
+        print("Inte ett giltigt val!")
 
-rubensTestSpelare = player("Hej", 1, 1, 0)
-rubensTestSpelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
-rubensTestSpelare.addToInventory(Item("Svärd2", 1, 1, 1, 1))
-rubensTestSpelare.addToInventory(Item("Svärd7", 1, 1, 1, 1))
-rubensTestSpelare.addToInventory(Item("Svärd32", 1, 1, 1, 1))
-rubensTestSpelare.addToInventory(Item("Svärd27", 1, 1, 1, 1))
-rubensTestSpelare.showInventory()
+#rubensTestSpelare = player("Hej", 1, 1, 0)
+#rubensTestSpelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
+#rubensTestSpelare.addToInventory(Item("Svärd2", 1, 1, 1, 1))
+#rubensTestSpelare.addToInventory(Item("Svärd7", 1, 1, 1, 1))
+#rubensTestSpelare.addToInventory(Item("Svärd32", 1, 1, 1, 1))
+#rubensTestSpelare.addToInventory(Item("Svärd27", 1, 1, 1, 1))
+#rubensTestSpelare.showInventory()
