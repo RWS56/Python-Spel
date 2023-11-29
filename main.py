@@ -19,6 +19,8 @@ class player():
     kista(self)\n
     monster(self)\n
     """
+    #Lägg till monster kill count??!?!?!?!?
+    
     def __init__(self, playerName, strength, hp, level):
         self.playerName = playerName
         self.strength = strength
