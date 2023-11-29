@@ -1,10 +1,10 @@
 import time
 import random
 from os import system
-level10 = False
+import sys
 import asciiart
 from asciiart import *
-
+level10 = False
 class player():
     """
     En klass för spelaren\n
@@ -84,7 +84,7 @@ class player():
                 AnimatePrint("Ditt Inventory är fullt! Vill du kasta bort ett Item?", newLine=False)
                 var = input()
                 if var == "Nej":
-                    AnimatePrint("Välj bort ett Item att kasta:")
+                    AnimatePrint("Välj bort ett Item att kasta: ", newLine=False)
                     self.showInventory()
                     var = input()
                     self.removeFromInventory(var)
@@ -120,7 +120,9 @@ def AnimatePrint(string: str, newLine = True, sleepTime = 0.03):
     ඞඞඞඞඞNOTERA!!!! Att newline skall vara false om en input skall tas direkt efteråt.ඞඞඞඞඞ
     """
     for char in string:
-        print(char, end="")
+        #print(char, end="")
+        sys.stdout.write(char)
+        sys.stdout.flush()
         time.sleep(sleepTime)
     if newLine:
         print()
@@ -149,10 +151,8 @@ def win():
     AnimatePrint("Du vann!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     
 def showCredits():
+    clearConsole()
     AnimatePrint("Skapad av: Sarah, Ruben, Ye")
-
-
-
 
 def generateItem():
     itemNames = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat", "spjut"]
