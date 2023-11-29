@@ -111,7 +111,7 @@ class Item():
         self.healthBonus = healthBonus
         self.defenseBonus = defenseBonus
 
-def AnimatePrint(string: str, newLine = True, sleepTime = 0.3):
+def AnimatePrint(string: str, newLine = True, sleepTime = 0.03):
     """
     Skriver ut inparametern strings enskilda bokstäver med en tidsenhets mellanrum\n
     New line bestämmer hurvida texten skall sluta med att en ny rad(\\n) ska printas. Är default True.\n
