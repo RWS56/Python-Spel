@@ -195,7 +195,7 @@ def spel():
         var = input("Ditt val: ", False)
         room()
     else:
-        pass§
+        pass
     
 #Början av spelet
 def start():
@@ -214,10 +214,10 @@ def start():
         print("Inte ett giltigt val!")
 
 #testspelare (avmarkea kommentar för att testa)        
-#spelare = player("hej", 1, 1, 0)        
+spelare = player("hej", 1, 1, 0)        
 
 #Startkommando för att sätta igång spelet (OBS MÅSTE ALLTID VARA SIST I KODEN!!!!!!)        
-#start()
+start()
 
 #rubensTestSpelare = player("Hej", 1, 1, 0)
 #rubensTestSpelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
