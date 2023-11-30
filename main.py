@@ -51,28 +51,31 @@ class Player():
                 animatedPrint("Du har inga items :(")
                 animatedPrint("Tryck på valfri tangent för att gå tillbaka.")
                 input()
-                spel()
+                spel(self)
             else:
                 animatedPrint("Förråd:")
                 i = 1
                 for item in self.inventory:
                     animatedPrint(f"[{i}]{item.itemName} ", False) #Eventuellt sätt newLine till false
                     i += 1
-                animatedPrint("1. Gå tillbaka\n2. Se Item")
+                animatedPrint("\n1. Gå tillbaka\n2. Se Item")
                 animatedPrint("Ditt val: ", False)
                 var = input()
                 if var == "1":
-                    spel()
+                    spel(self)
                 elif var == "2":
-                    animatedPrint("Vilket Item (1 till 5):", False)
-                    var == int(input())
-                    föremål = self.inventory[var-1]
+                    animatedPrint(f"Vilket Item (1 till {len(self.inventory)}):", False)
+                    var = int(input())
+                    föremål : Item = self.inventory[var-1]
                     animatedPrint("1. Radera \n2. Visa egenskaper:", False)
                     val = input()
                     if val == "1":
                         self.removeFromInventory(var)
                     elif val == "2":
-                        animatedPrint(föremål)
+                        föremål.displayItem()
+                        animatedPrint("Klicka på retur för att fortsätta ", False)
+                        input("")
+                        self.showInventory()
         else:
             if len(self.inventory) == 0:
                 animatedPrint("Du har inga items :(")
@@ -84,31 +87,34 @@ class Player():
                     i += 1
             
     def showStats(self):
-        animatedPrint(f"[Current Player]{self.playerName}")
-        animatedPrint(f"[HP]{self.hp} [STR]{self.strength} [LVL]{self.level}")
+        animatedPrint(f"[Current Player] {self.playerName}")
+        animatedPrint(f"[HP] {self.hp} [STR] {self.strength} [LVL] {self.level}")
         animatedPrint("Klicka på enter för att gå tillbaka", False)
         input()
-        spel()
+        spel(self)
     
     def takeDamage(self, damage):
-        animatedPrint(f"Du tog {damage} skada...")
-        animatedPrint(f"Du har {self.hp} hp kvar...")
         self.hp -= damage
         if self.hp <= 0:
             animatedPrint("Ditt HP blev till 0!")
             lose()
+        else:
+            animatedPrint(f"Du tog {damage} skada...")
+            animatedPrint(f"Du har {self.hp} hp kvar...")
     
     def Levelup(self, level):
+        animatedPrint(f"Du gick upp i level (+{level})")
+        
         self.level += level
         if self.level >= 10:
             win()
             
     def trap(self):
         animatedPrint("Ånej! En fälla!!! ඞඞඞඞඞඞඞඞඞඞඞඞඞඞ")
+        time.sleep(0.5)
         trapDamage = random.randint(1+self.level, 7*(1+self.level))
-        self.hp -= trapDamage
-        animatedPrint(f"Du tog {trapDamage} skada!")
-        spel()
+        self.takeDamage(trapDamage)
+        spel(self)
     
     def kista(self):
         generateditem = generateItem()
@@ -134,15 +140,20 @@ class Player():
     def monster(self): #Skapar ett monster med xyz damage och tillkallar takedamage
         clearConsole()
         animatedPrint("Du stöter på ett monster!\n ඞ")
-        monsterstrength = random.int(3, 10)
+        monsterstrength = random.randint(3, 10)
         if monsterstrength > self.strength:
             self.takeDamage(monsterstrength)
         elif monsterstrength < self.strength:
             animatedPrint("Du dödade monstret!")
-            var = 1
-            self.Levelup(var)
+            time.sleep(1)
+            levelsToUp = round((monsterstrength**2)/(4*monsterstrength))
+            self.Levelup(levelsToUp)
+            animatedPrint("Klicka på retur för att fortsätta ", False)
+            input("")
         else:
             animatedPrint("Du och monstret var lika starka så ingenting hände!")
+            
+        spel(self)
         
 class Item():
     """
@@ -156,6 +167,9 @@ class Item():
         self.strengthBonus = strengthBonus
         self.healthBonus = healthBonus
         self.defenseBonus = defenseBonus
+        
+    def displayItem(self):
+        animatedPrint(f"{self.itemName}: {self.itemDescription}, [STR]{self.strengthBonus}, [HP]{self.healthBonus}, [DEF]{self.defenseBonus}")
 
 def animatedPrint(string: str, newLine = True, sleepTime = 0.03):
     """
@@ -195,10 +209,15 @@ def lose():
 def win():
     clearConsole()
     animatedPrint("Du vann!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    animatedPrint("Klicka på retur för att återgå till menyn ", False)
+    input("")
+    start()
+    
+    
     
 def showCredits():
     clearConsole()
-    animatedPrint("Skapad av: Sarah, Ruben, Ye")
+    animatedPrint("Skapat av: Sarah, Ruben, Ye")
     animatedPrint("Tryck valfri tangent för att återvända")
     input()
     start()
@@ -214,10 +233,12 @@ def generateItem():
     item = Item(itemName, None, random.randint(1, 10), random.randint(1, 10), random.randint(1, 10))
     return item
 
-def room(currentPlayer):
+def room(currentPlayer: Player):
     animatedPrint("Tre dörrar, 1, 2, 3,")
-    animatedPrint("Välj en:" , False)
-    var = random.randint(0, 2)
+    animatedPrint("Välj en: " , False)
+    input("")
+    var = random.randint(0, 2) 
+    var = 1
     if var == 0:
         currentPlayer.kista()
         pass
@@ -229,11 +250,11 @@ def room(currentPlayer):
         pass
     else:
         animatedPrint("Hoppsan! Något gick fel!")
-        spel()
+        spel(currentPlayer)
         pass
     
 def spel(currentPlayer: Player):
-    
+    clearConsole()
     animatedPrint("1. Förråd")
     animatedPrint("2. Statistik")
     animatedPrint("3. Utforska")
@@ -241,28 +262,23 @@ def spel(currentPlayer: Player):
     var = input()
     if var == "1":
         currentPlayer.showInventory()
-        animatedPrint("1. Stäng inventory\n2. Välj föremål")
+        animatedPrint("1. Stäng inventory\n2. Välj föremål", False)
         var = input()
         if var == "1":
-            spel()
+            spel(currentPlayer)
         elif var == "2":
             #animatedPrint(self.inventory)
-            animatedPrint("Välj föremål 1 till 5", False)
-            var = int(input()) - 1
-            currentPlayer.showInventory(deleteitems=True)
-             
+            currentPlayer.showInventory(deleteitems=True)          
     elif var == "2":
-        animatedPrint()
+        currentPlayer.showStats()
     elif var == "3":
         animatedPrint("Du utforskar labyrinten...")
         time.sleep(1)
-        animatedPrint("Du påkommer tre dörrar. Vilken dörr väljer du?")
         #Lägg till ASCII konst för dörrar
-        var = input("Ditt val: ", False)
         room(currentPlayer)
     else:
-        pass
-    
+        spel(currentPlayer)
+
 #Början av spelet
 def start():
     clearConsole()
@@ -276,11 +292,13 @@ def start():
             showCredits()
         elif var == "3":
             exit()
+        else:
+            start()
     except TypeError as error:
         print("Inte ett giltigt val!")
 
 #testspelare (avmarkea kommentar för att testa)        
-spelare = Player("hej", 1, 1, 0)
+spelare = Player("MArre Lomme", 6, 1000, 0)
 spelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
 spelare.addToInventory(Item("Svärd2", 1, 1, 1, 1))
 
