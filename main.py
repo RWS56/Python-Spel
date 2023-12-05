@@ -238,20 +238,15 @@ def room(currentPlayer: Player):
     animatedPrint("Välj en: " , False)
     input("")
     var = random.randint(0, 2) 
-    var = 1
     if var == 0:
         currentPlayer.kista()
-        pass
     elif var == 1:
         currentPlayer.monster()
-        pass
     elif var == 2:
         currentPlayer.trap()
-        pass
     else:
         animatedPrint("Hoppsan! Något gick fel!")
         spel(currentPlayer)
-        pass
     
 def spel(currentPlayer: Player):
     clearConsole()
