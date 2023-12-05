@@ -4,6 +4,7 @@ from os import system
 import sys
 import asciiart
 from asciiart import *
+
 class Player():
     """
     En klass för spelaren\n
@@ -169,7 +170,7 @@ class Player():
     def monster(self): #Skapar ett monster med xyz damage och tillkallar takedamage
         clearConsole()
         animatedPrint("Du stöter på ett monster!")
-        animatedPrint(sus)
+        print(sus)
         monsterstrength = random.randint(3, 10)
         if monsterstrength > self.strength:
             self.takeDamage(monsterstrength)
