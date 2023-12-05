@@ -79,6 +79,7 @@ class Player():
                 if var == "1":
                     spel(self)
                 elif var == "2":
+                    self.showInventory()
                     animatedPrint(f"Vilket Item (1 till {len(self.inventory)}):", False)
                     var = int(input())
                     clearConsole()
