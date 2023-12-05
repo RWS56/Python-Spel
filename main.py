@@ -238,6 +238,7 @@ def room(currentPlayer: Player):
     animatedPrint("Välj en: " , False)
     input("")
     var = random.randint(0, 2) 
+    print(var)
     if var == 0:
         currentPlayer.kista()
     elif var == 1:
@@ -247,6 +248,7 @@ def room(currentPlayer: Player):
     else:
         animatedPrint("Hoppsan! Något gick fel!")
         spel(currentPlayer)
+        pass
     
 def spel(currentPlayer: Player):
     clearConsole()
