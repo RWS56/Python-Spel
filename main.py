@@ -27,6 +27,18 @@ class Player():
         self.hp = hp
         self.level = level
         self.inventory = []
+        
+    def bonus(self, status, itemPosInInventory):
+        item: Item = self.inventory[itemPosInInventory]
+        if status == True:
+            self.strength += item.strengthBonus
+            self.hp += item.defenseBonus
+            self.strength += item.healthBonus
+        elif status == False:
+            self.strength -= item.strengthBonus
+            self.hp -= item.defenseBonus
+            self.strength -= item.healthBonus
+        
     
     def addToInventory(self, item):
         if len(self.inventory) >= 5:
@@ -41,6 +53,7 @@ class Player():
         else:
             animatedPrint(f"Du tog bort{self.inventory[indexPlusOne - 1].itemName}!\n Tryck valfri tangent för att gå tillbaka.") #La till så att man ser vad som blev borttagget ur inventory
             input()
+            self.bonus(False, indexPlusOne - 1)
             self.inventory.pop(int(indexPlusOne) - 1)
             self.showInventory()
     
@@ -61,13 +74,16 @@ class Player():
                 animatedPrint("\n1. Gå tillbaka\n2. Se Item")
                 animatedPrint("Ditt val: ", False)
                 var = input()
+                clearConsole()
                 if var == "1":
                     spel(self)
                 elif var == "2":
                     animatedPrint(f"Vilket Item (1 till {len(self.inventory)}):", False)
                     var = int(input())
+                    clearConsole()
                     föremål : Item = self.inventory[var-1]
-                    animatedPrint("1. Radera \n2. Visa egenskaper:", False)
+                    self.showInventory(False)
+                    animatedPrint("1. Radera \n2. Visa egenskaper\n3. Pårusta/Avrusta:", False)
                     val = input()
                     if val == "1":
                         self.removeFromInventory(var)
@@ -75,7 +91,17 @@ class Player():
                         föremål.displayItem()
                         animatedPrint("Klicka på retur för att fortsätta ", False)
                         input("")
+                        clearConsole()
                         self.showInventory()
+                    elif val == "3":
+                        if föremål.equipped == True:
+                            föremål.equipped = False
+                            animatedPrint(f"{föremål.itemName} är avrustad.")
+                            self.bonus(False, var-1)
+                        elif föremål.equipped == False:
+                            föremål.equipped = True
+                            animatedPrint(f"{föremål.itemName} är pårustad.")
+                            self.bonus(True, var-1)
         else:
             if len(self.inventory) == 0:
                 animatedPrint("Du har inga items :(")
@@ -114,17 +140,18 @@ class Player():
         time.sleep(0.5)
         trapDamage = random.randint(1+self.level, 7*(1+self.level))
         self.takeDamage(trapDamage)
+        animatedPrint("Klicka på enter för att fortsätta")
+        input()
         spel(self)
     
     def kista(self):
-        generateditem = generateItem()
-        self.addToInventory(self, generateditem)
+        generateditem: Item = generateItem()
         animatedPrint(f"Du hittade {generateditem.itemName}! Vill du behålla den?")
-        animatedPrint("Ja/Nej", newLine=False)
+        animatedPrint("y/n ", newLine=False)
         var = input()
-        if var == "Ja":
+        if var == "y":
             if len(self.inventory) < 5:
-                self.addToInventory(self, generateditem)
+                self.addToInventory(generateditem)
             else:
                 animatedPrint("Ditt Inventory är fullt! Vill du kasta bort ett Item?", newLine=False)
                 var = input()
@@ -132,14 +159,17 @@ class Player():
                     animatedPrint("Välj bort ett Item att kasta: ", newLine=False)
                     self.showInventory(deleteitems=False)
                     var = input()
-                    self.removeFromInventory(var)
-                      
-        elif var == "Nej":
+                    self.removeFromInventory(var)           
+        elif var == "n":
             pass
+        
+        spel(self)
+            
         
     def monster(self): #Skapar ett monster med xyz damage och tillkallar takedamage
         clearConsole()
-        animatedPrint("Du stöter på ett monster!\n ඞ")
+        animatedPrint("Du stöter på ett monster!")
+        animatedPrint(sus)
         monsterstrength = random.randint(3, 10)
         if monsterstrength > self.strength:
             self.takeDamage(monsterstrength)
@@ -161,12 +191,13 @@ class Item():
     Varje item har ett namn, beskrivning, strengthBonus, healthBonus och defenseBonus.\n
     """
     
-    def __init__(self, itemName, itemDescription, strengthBonus, healthBonus, defenseBonus):
+    def __init__(self, itemName, itemDescription, strengthBonus, healthBonus, defenseBonus, equipped):
         self.itemName = itemName
         self.itemDescription = itemDescription
         self.strengthBonus = strengthBonus
         self.healthBonus = healthBonus
         self.defenseBonus = defenseBonus
+        self.equipped = equipped
         
     def displayItem(self):
         animatedPrint(f"{self.itemName}: {self.itemDescription}, [STR]{self.strengthBonus}, [HP]{self.healthBonus}, [DEF]{self.defenseBonus}")
@@ -180,9 +211,9 @@ def animatedPrint(string: str, newLine = True, sleepTime = 0.03):
     ඞඞඞඞඞNOTERA!!!! Att newline skall vara false om en input skall tas direkt efteråt.ඞඞඞඞඞ
     """
     for char in string:
-        #print(char, end="")
-        sys.stdout.write(char)
-        sys.stdout.flush()
+        print(char, end="", flush=True)
+        #sys.stdout.write(char) ###Gammla <<<<
+        #sys.stdout.flush()
         time.sleep(sleepTime)
     if newLine:
         print()
@@ -224,27 +255,30 @@ def showCredits():
 
 def generateItem():
     itemModifier = ["EJ tillräcklig", "Lagom", "Tillräckligt", "Pristin"]
-    itemNames = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat", "spjut", "Hälsodryck"]
-    selectedItem = random.randint(0, len(itemNames))
-    selectedModifier = random.randint(0, len[itemModifier])
-    itemNameJoin = selectedModifier + selectedItem
-    itemName = itemNames[itemNameJoin]
+    itemNames = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat", "spjut"] #kanske lägg till hp potion
+    selectedItem = random.randint(0, len(itemNames) - 1)
+    selectedModifier = random.randint(0, len(itemModifier) - 1)
+    itemName = f"{itemModifier[selectedModifier]} {itemNames[selectedItem]}"
 
-    item = Item(itemName, None, random.randint(1, 10), random.randint(1, 10), random.randint(1, 10))
+    item = Item(itemName, None, random.randint(1, 10), random.randint(1, 10), random.randint(1, 10), False)
     return item
 
 def room(currentPlayer: Player):
+    clearConsole()
     animatedPrint("Tre dörrar, 1, 2, 3,")
     animatedPrint("Välj en: " , False)
     input("")
+    clearConsole()
     var = random.randint(0, 2) 
-    print(var)
     if var == 0:
         currentPlayer.kista()
+        pass
     elif var == 1:
         currentPlayer.monster()
+        pass
     elif var == 2:
         currentPlayer.trap()
+        pass
     else:
         animatedPrint("Hoppsan! Något gick fel!")
         spel(currentPlayer)
@@ -295,17 +329,6 @@ def start():
         print("Inte ett giltigt val!")
 
 #testspelare (avmarkea kommentar för att testa)        
-spelare = Player("MArre Lomme", 6, 1000, 0)
-spelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
-spelare.addToInventory(Item("Svärd2", 1, 1, 1, 1))
+spelare = Player("MArre Lomme", 0, 1000, 0)
 
-#Startkommando för att sätta igång spelet (OBS MÅSTE ALLTID VARA SIST I KODEN!!!!!!)        
 start()
-
-#rubensTestSpelare = Player("Hej", 1, 1, 0)
-#rubensTestSpelare.addToInventory(Item("Svärd1", 1, 1, 1, 1))
-#rubensTestSpelare.addToInventory(Item("Svärd2", 1, 1, 1, 1))
-#rubensTestSpelare.addToInventory(Item("Svärd7", 1, 1, 1, 1))
-#rubensTestSpelare.addToInventory(Item("Svärd32", 1, 1, 1, 1))
-#rubensTestSpelare.addToInventory(Item("Svärd27", 1, 1, 1, 1))
-#rubensTestSpelare.showInventory()
