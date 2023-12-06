@@ -88,9 +88,12 @@ class Player():
                         föremål.displayItem()
                     except IndexError as e:
                         animatedPrint("Inte ett giltigt val!")
+                        animatedPrint("Klicka på enter för att gå tillbaka", False)
+                        input()
                         self.showInventory()
                     
-                    animatedPrint(f"1. Radera \n2. Pårusta/Avrusta\n3. Gå tillbaka:", False)
+                    animatedPrint(f"1. Radera \n2. Pårusta/Avrusta\n3. Gå tillbaka", False)
+                    animatedPrint("Ditt val:", True)
                     val = input()
                     if val == "1":
                         self.removeFromInventory(var)
@@ -107,6 +110,12 @@ class Player():
                     elif val == "3":
                         clearConsole()
                         self.showInventory()
+                else:
+                    animatedPrint("Inte ett giltigt val!!!!!!!!!!")
+                    animatedPrint("Klicka på enter för att gå tillbaka", False)
+                    input()
+                    clearConsole()
+                    self.showInventory()
                         
         else:
             if len(self.inventory) == 0:
@@ -140,9 +149,11 @@ class Player():
         self.level += level
         if self.level >= 10:
             win()
+        animatedPrint("Klicka på enter för att gå tillbaka", False)
+        input()
             
     def trap(self):
-        animatedPrint("Ånej! En fälla!!! ඞඞඞඞඞඞඞඞඞඞඞඞඞඞ")
+        animatedPrint("Ånej! En fälla!!!")
         time.sleep(0.5)
         trapDamage = random.randint(1+self.level, 7*(1+self.level))
         self.takeDamage(trapDamage)
@@ -184,7 +195,7 @@ class Player():
             time.sleep(1)
             levelsToUp = round((monsterstrength**2)/(4*monsterstrength))
             self.Levelup(levelsToUp)
-            animatedPrint("Klicka på retur för att fortsätta ", False)
+            animatedPrint("Klicka på enter för att fortsätta ", False)
             input("")
         else:
             animatedPrint("Du och monstret var lika starka så ingenting hände!")
@@ -241,12 +252,15 @@ def lose():
                 exit()
         except TypeError as error:
             animatedPrint("Inte ett giltigt val!")
+            animatedPrint("Klicka på enter för att gå tillbaka", False)
+            input()
+            lose()
         
 def win():
     clearConsole()
     animatedPrint("Du vann!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    animatedPrint("Klicka på retur för att återgå till menyn ", False)
-    input("")
+    animatedPrint("Klicka på enter för att återgå till menyn ", False)
+    input()
     start()
     
     
@@ -291,6 +305,8 @@ def room(currentPlayer: Player):
             pass
     else:
         animatedPrint("Ogiltigt val!")
+        animatedPrint("Klicka på enter för att gå tillbaka", False)
+        input()
         time.sleep(0.5)
         room(currentPlayer)
     
@@ -341,5 +357,7 @@ def start():
             start()
     except TypeError as error:
         print("Inte ett giltigt val!")
-
+        animatedPrint("Klicka på enter för att gå tillbaka", False)
+        input()
+        start()
 start()
