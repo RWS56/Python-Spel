@@ -85,21 +85,17 @@ class Player():
                     clearConsole()
                     try:  
                         föremål : Item = self.inventory[var-1]
+                        föremål.displayItem()
                     except IndexError as e:
                         animatedPrint("Inte ett giltigt val!")
+                        self.showInventory()
                     
-                    föremål.displayItem()
-                    animatedPrint(f"1. Radera \n2. Visa egenskaper\n3. Pårusta/Avrusta\n4. Gå tillbaka:", False)
+                    animatedPrint(f"1. Radera \n2. Pårusta/Avrusta\n3. Gå tillbaka:", False)
                     val = input()
                     if val == "1":
                         self.removeFromInventory(var)
                     elif val == "2":
-                        föremål.displayItem()
-                        animatedPrint("Klicka på retur för att fortsätta \n", False)
-                        input("")
                         clearConsole()
-                        self.showInventory()
-                    elif val == "3":
                         if föremål.equipped == True:
                             föremål.equipped = False
                             animatedPrint(f"{föremål.itemName} är avrustad.")
@@ -108,7 +104,8 @@ class Player():
                             föremål.equipped = True
                             animatedPrint(f"{föremål.itemName} är pårustad.")
                             self.bonus(True, var-1)
-                    elif val == "4":
+                    elif val == "3":
+                        clearConsole()
                         self.showInventory()
                         
         else:
