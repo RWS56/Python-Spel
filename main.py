@@ -87,7 +87,7 @@ class Player():
                     clearConsole()
                     föremål : Item = self.inventory[var-1]
                     self.showInventory(False)
-                    animatedPrint("\n1. Radera \n2. Visa egenskaper\n3. Pårusta/Avrusta:", False)
+                    animatedPrint("\n1. Radera \n2. Visa egenskaper\n3. Pårusta/Avrusta\n4. Gå tillbaka:", False)
                     val = input()
                     if val == "1":
                         self.removeFromInventory(var)
@@ -106,6 +106,9 @@ class Player():
                             föremål.equipped = True
                             animatedPrint(f"{föremål.itemName} är pårustad.")
                             self.bonus(True, var-1)
+                    elif val == "4":
+                        self.showInventory()
+                        
         else:
             if len(self.inventory) == 0:
                 animatedPrint("Du har inga items :(")
@@ -271,22 +274,26 @@ def room(currentPlayer: Player):
     clearConsole()
     animatedPrint("Tre dörrar, 1, 2, 3,")
     animatedPrint("Välj en: " , False)
-    input("")
+    val = input("")
     clearConsole()
-    var = random.randint(0, 2) 
-    if var == 0:
-        currentPlayer.kista()
-        pass
-    elif var == 1:
-        currentPlayer.monster()
-        pass
-    elif var == 2:
-        currentPlayer.trap()
-        pass
+    if val in ["1", "2", "3"]:
+        var = random.randint(0, 2)  
+        if var == 0:
+            currentPlayer.kista()
+            pass
+        elif var == 1:
+            currentPlayer.monster()
+            pass
+        elif var == 2:
+            currentPlayer.trap()
+            pass
+        else:
+            animatedPrint("Hoppsan! Något gick fel!")
+            spel(currentPlayer)
+            pass
     else:
-        animatedPrint("Hoppsan! Något gick fel!")
-        spel(currentPlayer)
-        pass
+        animatedPrint("Ogiltigt val!")
+        room()
     
 def spel(currentPlayer: Player):
     clearConsole()
