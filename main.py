@@ -37,7 +37,7 @@ class Player():
             self.strength += item.healthBonus
         elif status == False:
             self.strength -= item.strengthBonus
-            self.hp -= item.defenseBonus
+            #self.hp -= item.defenseBonus
             self.strength -= item.healthBonus
         
     
@@ -70,7 +70,7 @@ class Player():
                 animatedPrint("Förråd:")
                 i = 1
                 for item in self.inventory:
-                    animatedPrint(f"[{i}]{item.itemName} ", False) #Eventuellt sätt newLine till false
+                    animatedPrint(f"[{i}]{item.itemName} \n", False) #Eventuellt sätt newLine till false
                     i += 1
                 animatedPrint("\n1. Gå tillbaka\n2. Se Item\n")
                 animatedPrint("Ditt val: ", False)
@@ -79,15 +79,18 @@ class Player():
                 if var == "1":
                     spel(self)
                 elif var == "2":
-                    for item in self.inventory:
-                        animatedPrint(f"[{i}]{item.itemName}\n", False) #Eventuellt sätt newLine till false
-                    i += 1
+                    self.showInventory(False)
+                    
                     animatedPrint(f"Vilket Item (1 till {len(self.inventory)}): ", False)
                     var = int(input())
                     clearConsole()
-                    föremål : Item = self.inventory[var-1]
-                    self.showInventory(False)
-                    animatedPrint("\n1. Radera \n2. Visa egenskaper\n3. Pårusta/Avrusta\n4. Gå tillbaka:", False)
+                    try:  
+                        föremål : Item = self.inventory[var-1]
+                    except IndexError as e:
+                        animatedPrint("Inte ett giltigt val!")
+                    
+                    föremål.displayItem()
+                    animatedPrint(f"1. Radera \n2. Visa egenskaper\n3. Pårusta/Avrusta\n4. Gå tillbaka:", False)
                     val = input()
                     if val == "1":
                         self.removeFromInventory(var)
@@ -116,7 +119,7 @@ class Player():
                 animatedPrint("Förråd:")
                 i = 1
                 for item in self.inventory:
-                    animatedPrint(f"[{i}]{item.itemName} ", False) #Eventuellt sätt newLine till false
+                    animatedPrint(f"[{i}]{item.itemName} \n", False) #Eventuellt sätt newLine till false
                     i += 1
             
     def showStats(self):
@@ -177,7 +180,7 @@ class Player():
         clearConsole()
         animatedPrint("Du stöter på ett monster!")
         #print(sus)
-        monsterstrength = random.randint(3, 10)
+        monsterstrength = random.randint(1, 10 + round(self.strength/2))
         if monsterstrength > self.strength:
             self.takeDamage(monsterstrength)
         elif monsterstrength < self.strength:
@@ -198,18 +201,17 @@ class Item():
     Varje item har ett namn, beskrivning, strengthBonus, healthBonus och defenseBonus.\n
     """
     
-    def __init__(self, itemName, itemDescription, strengthBonus, healthBonus, defenseBonus, equipped):
+    def __init__(self, itemName, strengthBonus, healthBonus, defenseBonus, equipped):
         self.itemName = itemName
-        self.itemDescription = itemDescription
         self.strengthBonus = strengthBonus
         self.healthBonus = healthBonus
         self.defenseBonus = defenseBonus
         self.equipped = equipped
         
     def displayItem(self):
-        animatedPrint(f"{self.itemName}: {self.itemDescription}, [STR]{self.strengthBonus}, [HP]{self.healthBonus}, [DEF]{self.defenseBonus}")
+        animatedPrint(f"{self.itemName}: \n[STR]{self.strengthBonus} \n[HP]{self.healthBonus} \n[DEF]{self.defenseBonus}")
 
-def animatedPrint(string: str, newLine = True, sleepTime = 0.03):
+def animatedPrint(string: str, newLine = True, sleepTime = 0.0):
     """
     Skriver ut inparametern strings enskilda bokstäver med en tidsenhets mellanrum\n
     New line bestämmer hurvida texten skall sluta med att en ny rad(\\n) ska printas. Är default True.\n
@@ -267,13 +269,13 @@ def generateItem():
     selectedModifier = random.randint(0, len(itemModifier) - 1)
     itemName = f"{itemModifier[selectedModifier]} {itemNames[selectedItem]}"
 
-    item = Item(itemName, None, random.randint(1, 10), random.randint(1, 10), random.randint(1, 10), False)
+    item = Item(itemName, random.randint(1, 10), random.randint(1, 10), random.randint(1, 10), False)
     return item
 
 def room(currentPlayer: Player):
     clearConsole()
-    animatedPrint("Tre dörrar, 1, 2, 3,")
-    animatedPrint("Välj en: " , False)
+    animatedPrint("Du finner dig framför tre dörrar...")
+    animatedPrint("Välj en [1-3]: " , False)
     val = input("")
     clearConsole()
     if val in ["1", "2", "3"]:
@@ -330,6 +332,10 @@ def start():
     var = input()
     try:
         if var == "1":
+            animatedPrint("Vad heter du?:", False)
+            name = input("")
+            spelare = Player(name, 3, 15, 0)
+            spelare.addToInventory(generateItem())
             spel(spelare)
         elif var == "2":
             showCredits()
@@ -339,8 +345,5 @@ def start():
             start()
     except TypeError as error:
         print("Inte ett giltigt val!")
-
-#testspelare (avmarkea kommentar för att testa)        
-spelare = Player("MArre Lomme", 0, 15, 0)
 
 start()
