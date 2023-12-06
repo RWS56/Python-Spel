@@ -79,7 +79,9 @@ class Player():
                 if var == "1":
                     spel(self)
                 elif var == "2":
-                    self.showInventory()
+                    for item in self.inventory:
+                        animatedPrint(f"[{i}]{item.itemName} ", False) #Eventuellt sätt newLine till false
+                    i += 1
                     animatedPrint(f"Vilket Item (1 till {len(self.inventory)}):", False)
                     var = int(input())
                     clearConsole()
@@ -227,7 +229,7 @@ def clearConsole():
     system("cls || clear") # Notera att endast cls antagligen behövs
 
 def lose():
-    animatedPrint(f"Du förlorade!\n {asciiart.sus}\n Vill du spela igen?\n Ja/Nej")
+    print(f"Du förlorade!\n {asciiart.sus}\n Vill du spela igen?\n Ja/Nej")
     animatedPrint("Ditt val: ", newLine = False)
     while True:
         val = input()
@@ -331,6 +333,6 @@ def start():
         print("Inte ett giltigt val!")
 
 #testspelare (avmarkea kommentar för att testa)        
-spelare = Player("MArre Lomme", 0, 1000, 0)
+spelare = Player("MArre Lomme", 0, 15, 0)
 
 start()
