@@ -176,7 +176,7 @@ class Player():
     def monster(self): #Skapar ett monster med xyz damage och tillkallar takedamage
         clearConsole()
         animatedPrint("Du stöter på ett monster!")
-        print(sus)
+        #print(sus)
         monsterstrength = random.randint(3, 10)
         if monsterstrength > self.strength:
             self.takeDamage(monsterstrength)
@@ -293,7 +293,8 @@ def room(currentPlayer: Player):
             pass
     else:
         animatedPrint("Ogiltigt val!")
-        room()
+        time.sleep(0.5)
+        room(currentPlayer)
     
 def spel(currentPlayer: Player):
     clearConsole()
