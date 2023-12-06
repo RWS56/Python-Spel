@@ -72,7 +72,7 @@ class Player():
                 for item in self.inventory:
                     animatedPrint(f"[{i}]{item.itemName} ", False) #Eventuellt sätt newLine till false
                     i += 1
-                animatedPrint("\n1. Gå tillbaka\n2. Se Item")
+                animatedPrint("\n1. Gå tillbaka\n2. Se Item\n")
                 animatedPrint("Ditt val: ", False)
                 var = input()
                 clearConsole()
@@ -80,20 +80,20 @@ class Player():
                     spel(self)
                 elif var == "2":
                     for item in self.inventory:
-                        animatedPrint(f"[{i}]{item.itemName} ", False) #Eventuellt sätt newLine till false
+                        animatedPrint(f"[{i}]{item.itemName}\n", False) #Eventuellt sätt newLine till false
                     i += 1
-                    animatedPrint(f"Vilket Item (1 till {len(self.inventory)}):", False)
+                    animatedPrint(f"Vilket Item (1 till {len(self.inventory)}): ", False)
                     var = int(input())
                     clearConsole()
                     föremål : Item = self.inventory[var-1]
                     self.showInventory(False)
-                    animatedPrint("1. Radera \n2. Visa egenskaper\n3. Pårusta/Avrusta:", False)
+                    animatedPrint("\n1. Radera \n2. Visa egenskaper\n3. Pårusta/Avrusta:", False)
                     val = input()
                     if val == "1":
                         self.removeFromInventory(var)
                     elif val == "2":
                         föremål.displayItem()
-                        animatedPrint("Klicka på retur för att fortsätta ", False)
+                        animatedPrint("Klicka på retur för att fortsätta \n", False)
                         input("")
                         clearConsole()
                         self.showInventory()
