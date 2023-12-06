@@ -80,8 +80,11 @@ class Player():
                 elif var == "2":
                     self.showInventory(False)
                     
-                    animatedPrint(f"Vilket Item (1 till {len(self.inventory)}): ", False)
-                    var = int(input())
+                    animatedPrint(f"\nVilket Item (1 till {len(self.inventory)}): ", False)
+                    try:
+                        var = int(input())
+                    except:
+                        self.showInventory()
                     clearConsole()
                     try:  
                         föremål : Item = self.inventory[var-1]
@@ -92,8 +95,8 @@ class Player():
                         input()
                         self.showInventory()
                     
-                    animatedPrint(f"1. Radera \n2. Pårusta/Avrusta\n3. Gå tillbaka", False)
-                    animatedPrint("Ditt val:", True)
+                    animatedPrint(f"\n1. Radera \n2. Pårusta/Avrusta\n3. Gå tillbaka")
+                    animatedPrint("Ditt val:", False)
                     val = input()
                     if val == "1":
                         self.removeFromInventory(var)
@@ -121,7 +124,7 @@ class Player():
             if len(self.inventory) == 0:
                 animatedPrint("Du har inga items :(")
             else:
-                animatedPrint("Förråd:")
+                animatedPrint("Förråd:\n")
                 i = 1
                 for item in self.inventory:
                     animatedPrint(f"[{i}]{item.itemName} \n", False) #Eventuellt sätt newLine till false
@@ -164,7 +167,7 @@ class Player():
     def kista(self):
         generateditem: Item = generateItem()
         animatedPrint(f"Du hittade {generateditem.itemName}! Vill du behålla den?")
-        animatedPrint("y/n ", newLine=False)
+        animatedPrint("[y/n]: ", newLine=False)
         var = input()
         if var == "y":
             if len(self.inventory) < 5:
@@ -199,7 +202,9 @@ class Player():
             input("")
         else:
             animatedPrint("Du och monstret var lika starka så ingenting hände!")
-            
+        
+        animatedPrint("Klicka på retur för att fortsätta", False)
+        input("")
         spel(self)
         
 class Item():
@@ -218,7 +223,7 @@ class Item():
     def displayItem(self):
         animatedPrint(f"{self.itemName}: \n[STR]{self.strengthBonus} \n[HP]{self.healthBonus} \n[DEF]{self.defenseBonus}")
 
-def animatedPrint(string: str, newLine = True, sleepTime = 0.0):
+def animatedPrint(string: str, newLine = True, sleepTime = 0.03):
     """
     Skriver ut inparametern strings enskilda bokstäver med en tidsenhets mellanrum\n
     New line bestämmer hurvida texten skall sluta med att en ny rad(\\n) ska printas. Är default True.\n
@@ -228,8 +233,6 @@ def animatedPrint(string: str, newLine = True, sleepTime = 0.0):
     """
     for char in string:
         print(char, end="", flush=True)
-        #sys.stdout.write(char) ###Gammla <<<<
-        #sys.stdout.flush()
         time.sleep(sleepTime)
     if newLine:
         print()
@@ -344,10 +347,10 @@ def start():
     var = input()
     try:
         if var == "1":
-            animatedPrint("Vad heter du?:", False)
+            clearConsole()
+            animatedPrint("Vad heter du?: ", False)
             name = input("")
             spelare = Player(name, 3, 15, 0)
-            spelare.addToInventory(generateItem())
             spel(spelare)
         elif var == "2":
             showCredits()
