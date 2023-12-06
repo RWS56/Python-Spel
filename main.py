@@ -37,7 +37,6 @@ class Player():
             self.strength += item.healthBonus
         elif status == False:
             self.strength -= item.strengthBonus
-            #self.hp -= item.defenseBonus
             self.strength -= item.healthBonus
         
     
