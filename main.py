@@ -241,7 +241,7 @@ def clearConsole():
     system("cls || clear") # Notera att endast cls antagligen behövs
 
 def lose():
-    print(f"Du förlorade!\n {asciiart.sus}\n Vill du spela igen?\n Ja/Nej")
+    print(f"Du förlorade!\n {asciiart.sus}\n Vill du spela igen?\n ja/nej")
     animatedPrint("Ditt val: ", newLine = False)
     while True:
         val = input()
