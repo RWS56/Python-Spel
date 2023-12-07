@@ -74,7 +74,7 @@ class Player():
                 for item in self.inventory:
                     animatedPrint(f"[{i}]{item.itemName} \n", False) #Eventuellt sätt newLine till false
                     i += 1
-                animatedPrint("\n1. Gå tillbaka\n2. Se Item\n")
+                animatedPrint("\n1. Gå tillbaka\n2. Visa Item\n")
                 animatedPrint("Ditt val: ", False)
                 var = input()
                 clearConsole()
@@ -295,6 +295,7 @@ def room(currentPlayer: Player):
     clearConsole()
     if val in ["1", "2", "3"]:
         var = random.randint(0, 2) 
+        
         if var == 0:
             currentPlayer.kista()
             pass
