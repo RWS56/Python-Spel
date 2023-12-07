@@ -292,7 +292,8 @@ def generateItem():
 
 def room(currentPlayer: Player):
     clearConsole()
-    animatedPrint("Du finner dig framför tre dörrar...")
+    print(door)
+    animatedPrint("\nDu finner dig framför tre dörrar...")
     animatedPrint("Välj en [1-3]: " , False)
     val = input("")
     clearConsole()
@@ -348,6 +349,7 @@ def spel(currentPlayer: Player):
 #Början av spelet
 def start():
     clearConsole()
+    print(logo)
     animatedPrint("""1. Starta äventyret\n2. Credits\n3. Avsluta äventyret""")
     animatedPrint("Ditt val: ", False)
     var = input()
