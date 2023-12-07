@@ -282,7 +282,7 @@ def showCredits():
 
 def generateItem():
     itemModifier = ["EJ tillräcklig", "Lagom", "Tillräckligt", "Pristin"]
-    itemNames = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat", "spjut"] #kanske lägg till hp potion
+    itemNames = ["svärd", "sköld", "hjälm", "kängor", "kniv", "pilbåge", "gevär", "handgranat", "spjut", "pinne", "sten"] #kanske lägg till hp potion
     selectedItem = random.randint(0, len(itemNames) - 1)
     selectedModifier = random.randint(0, len(itemModifier) - 1)
     itemName = f"{itemModifier[selectedModifier]} {itemNames[selectedItem]}"
@@ -344,6 +344,10 @@ def spel(currentPlayer: Player):
         #Lägg till ASCII konst för dörrar
         room(currentPlayer)
     else:
+        clearConsole()
+        print("Inte ett giltigt val!")
+        animatedPrint("Klicka på enter för att gå tillbaka", False)
+        input()
         spel(currentPlayer)
 
 #Början av spelet
