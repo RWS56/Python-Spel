@@ -36,9 +36,11 @@ class Player():
             self.strength += item.strengthBonus
             self.hp += item.defenseBonus
             self.strength += item.healthBonus
+            self.defense += item.defenseBonus
         elif status == False:
             self.strength -= item.strengthBonus
-            self.strength -= item.healthBonus
+            self.hp -= item.healthBonus
+            self.defense -= item.defenseBonus
         
     
     def addToInventory(self, item):
@@ -133,7 +135,7 @@ class Player():
             
     def showStats(self):
         animatedPrint(f"[Current Player] {self.playerName}")
-        animatedPrint(f"[HP] {self.hp} [STR] {self.strength} [LVL] {self.level}")
+        animatedPrint(f"[HP] {self.hp} [STR] {self.strength} [DEF] {self.defense} [LVL] {self.level}")
         animatedPrint("Klicka på enter för att gå tillbaka", False)
         input()
         spel(self)
@@ -199,7 +201,7 @@ class Player():
         elif monsterstrength < self.strength:
             animatedPrint("Du dödade monstret!")
             time.sleep(1)
-            levelsToUp = round((monsterstrength**2)/(4*monsterstrength))
+            levelsToUp = round((monsterstrength**2)/(2*monsterstrength))
             self.Levelup(levelsToUp)
             animatedPrint("Klicka på enter för att fortsätta ", False)
             input("")
@@ -335,6 +337,7 @@ def spel(currentPlayer: Player):
     elif var == "2":
         currentPlayer.showStats()
     elif var == "3":
+        clearConsole()
         animatedPrint("Du utforskar labyrinten...")
         time.sleep(1)
         #Lägg till ASCII konst för dörrar
