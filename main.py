@@ -10,10 +10,11 @@ class Player():
     En klass för spelaren\n
     Innehållande funktioner:\n
     
+    bonus(self, status, itemPosInInventory)\n
     addToInventory(self, item)\n
     removeFromInventory(self, indexPlusOne)\n
-    showInventory(self)\n
-    ShowInventorykista (specifikt för kista() funktionen)\n
+    showInventory(self, bollean)\n
+    showStats(self,)\n
     takeDamage(self, damage)\n
     Levelup(self, level)\n
     trap(self)\n
@@ -34,8 +35,7 @@ class Player():
         item: Item = self.inventory[itemPosInInventory]
         if status == True:
             self.strength += item.strengthBonus
-            self.hp += item.defenseBonus
-            self.strength += item.healthBonus
+            self.hp += item.healthBonus
             self.defense += item.defenseBonus
         elif status == False:
             self.strength -= item.strengthBonus
@@ -105,14 +105,16 @@ class Player():
                         self.removeFromInventory(var)
                     elif val == "2":
                         clearConsole()
-                        if föremål.equipped == True:
-                            föremål.equipped = False
+                        if föremål.equipped == True: #om self.bonus(True,) så tar den bort stats
                             animatedPrint(f"{föremål.itemName} är avrustad.")
                             self.bonus(False, var-1)
-                        elif föremål.equipped == False:
-                            föremål.equipped = True
+                            föremål.equipped = False
+                            self.showInventory()
+                        elif föremål.equipped == False: #om self-bonus(False,) så lägger den till stats                         
                             animatedPrint(f"{föremål.itemName} är pårustad.")
                             self.bonus(True, var-1)
+                            föremål.equipped = True
+                            self.showInventory()
                     elif val == "3":
                         clearConsole()
                         self.showInventory()
@@ -121,8 +123,7 @@ class Player():
                     animatedPrint("Klicka på enter för att gå tillbaka", False)
                     input()
                     clearConsole()
-                    self.showInventory()
-                        
+                    self.showInventory()                       
         else:
             if len(self.inventory) == 0:
                 animatedPrint("Du har inga items :(")
@@ -187,9 +188,7 @@ class Player():
                     self.removeFromInventory(var)           
         elif var == "n":
             pass
-        
-        spel(self)
-            
+        spel(self)       
         
     def monster(self): #Skapar ett monster med xyz damage och tillkallar takedamage
         clearConsole()
@@ -266,12 +265,10 @@ def lose():
         
 def win():
     clearConsole()
-    animatedPrint("Du vann!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    animatedPrint("Klicka på enter för att återgå till menyn ", False)
+    print(vinna)
+    animatedPrint("\nKlicka på enter för att återgå till menyn ", False)
     input()
     start()
-    
-    
     
 def showCredits():
     clearConsole()
@@ -286,19 +283,18 @@ def generateItem():
     selectedItem = random.randint(0, len(itemNames) - 1)
     selectedModifier = random.randint(0, len(itemModifier) - 1)
     itemName = f"{itemModifier[selectedModifier]} {itemNames[selectedItem]}"
-
     item = Item(itemName, random.randint(1, 10), random.randint(1, 10), random.randint(1, 10), False)
     return item
 
 def room(currentPlayer: Player):
     clearConsole()
-    print(door)
+    print(door) #dörrar från asciiart.py
     animatedPrint("\nDu finner dig framför tre dörrar...")
     animatedPrint("Välj en [1-3]: " , False)
     val = input("")
     clearConsole()
     if val in ["1", "2", "3"]:
-        var = random.randint(0, 2)  
+        var = random.randint(0, 2) 
         if var == 0:
             currentPlayer.kista()
             pass
@@ -341,7 +337,6 @@ def spel(currentPlayer: Player):
         clearConsole()
         animatedPrint("Du utforskar labyrinten...")
         time.sleep(1)
-        #Lägg till ASCII konst för dörrar
         room(currentPlayer)
     else:
         clearConsole()
