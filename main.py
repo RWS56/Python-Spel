@@ -22,10 +22,11 @@ class Player():
     """
     #Lägg till monster kill count??!?!?!?!?
     
-    def __init__(self, playerName, strength, hp, level):
+    def __init__(self, playerName, strength, hp, defense, level):
         self.playerName = playerName
         self.strength = strength
         self.hp = hp
+        self.defense = defense
         self.level = level
         self.inventory = []
         
@@ -95,7 +96,7 @@ class Player():
                         input()
                         self.showInventory()
                     
-                    animatedPrint(f"\n1. Radera \n2. Pårusta/Avrusta\n3. Gå tillbaka")
+                    animatedPrint(f"\n1. Radera \n2. Pårusta/Avrusta\n3. Gå tillbaka\n")
                     animatedPrint("Ditt val:", False)
                     val = input()
                     if val == "1":
@@ -138,7 +139,7 @@ class Player():
         spel(self)
     
     def takeDamage(self, damage):
-        self.hp -= damage
+        self.hp -= round(damage * (1/((self.defense + 1)**(1/10))))
         if self.hp <= 0:
             animatedPrint("Ditt HP blev till 0!")
             lose()
@@ -164,8 +165,10 @@ class Player():
         input()
         spel(self)
     
-    def kista(self):
+    def kista(self):    
         generateditem: Item = generateItem()
+        if random.randint(0, 100) > 94: #ska va 94
+            generateditem = Item("Gyllene Excalibur", 100, 100, 100, False)
         animatedPrint(f"Du hittade {generateditem.itemName}! Vill du behålla den?")
         animatedPrint("[y/n]: ", newLine=False)
         var = input()
@@ -322,8 +325,8 @@ def spel(currentPlayer: Player):
     var = input()
     if var == "1":
         currentPlayer.showInventory()
-        animatedPrint("1. Stäng inventory\n2. Välj föremål", False)
-        var = input()
+        animatedPrint("1. Stäng inventory\n2. Välj föremål\n", False)
+        var = input("Ditt val: ")
         if var == "1":
             spel(currentPlayer)
         elif var == "2":
@@ -350,7 +353,7 @@ def start():
             clearConsole()
             animatedPrint("Vad heter du?: ", False)
             name = input("")
-            spelare = Player(name, 3, 15, 0)
+            spelare = Player(name, 3, 15, 0, 0)
             spel(spelare)
         elif var == "2":
             showCredits()
