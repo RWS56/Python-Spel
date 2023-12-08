@@ -329,7 +329,6 @@ def room(currentPlayer: Player):
     clearConsole()
     if val in ["1", "2", "3"]:
         var = random.randint(0, 2) 
-        var = 0
         if var == 0:
             currentPlayer.kista()
             pass
