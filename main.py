@@ -50,15 +50,21 @@ class Player():
             self.inventory.append(item)
             animatedPrint(f"{item.itemName} är tillagt i ditt förråd!")
     
-    def removeFromInventory(self, indexPlusOne):
-        if len(self.inventory) == 0:
-            animatedPrint("Du har inga items att ta bort :(")
-        else:
-            animatedPrint(f"Du tog bort{self.inventory[indexPlusOne - 1].itemName}!\n Tryck valfri tangent för att gå tillbaka.") #La till så att man ser vad som blev borttagget ur inventory
+    def removeFromInventory(self, indexPlusOne, kista=False):
+        if kista == False:
+            if len(self.inventory) == 0:
+                animatedPrint("Du har inga items att ta bort :(")
+            else:
+                animatedPrint(f"Du tog bort {self.inventory[indexPlusOne - 1].itemName}!\n Tryck valfri tangent för att gå tillbaka.") #La till så att man ser vad som blev borttagget ur inventory
+                input()
+                self.bonus(False, indexPlusOne - 1)
+                self.inventory.pop(int(indexPlusOne) - 1)
+                self.showInventory()
+        if kista == True:
+            animatedPrint(f"Du tog bort {self.inventory[indexPlusOne - 1].itemName}!\n Tryck valfri tangent för att gå tillbaka.") #La till så att man ser vad som blev borttagget ur inventory
             input()
             self.bonus(False, indexPlusOne - 1)
             self.inventory.pop(int(indexPlusOne) - 1)
-            self.showInventory()
     
     def showInventory(self, deleteitems = True,):
         clearConsole()
@@ -168,27 +174,53 @@ class Player():
         input()
         spel(self)
     
-    def kista(self):    
-        generateditem: Item = generateItem()
-        if random.randint(0, 100) > 94: #ska va 94
-            generateditem = Item("Gyllene Excalibur", 100, 100, 100, False)
-        animatedPrint(f"Du hittade {generateditem.itemName}! Vill du behålla den?")
-        animatedPrint("[y/n]: ", newLine=False)
-        var = input()
-        if var == "y":
-            if len(self.inventory) < 5:
-                self.addToInventory(generateditem)
+    def kista(self, generateanitem=True):    
+        if generateanitem == True:
+            generateditem: Item = generateItem()
+            if random.randint(0, 100) > 94: #ska va 94
+                generateditem = Item("Gyllene Excalibur", 100, 100, 100, False)
+        while True:
+            animatedPrint(f"Du hittade {generateditem.itemName}! Vill du behålla den?")
+            animatedPrint("[y/n]: ", newLine=False)
+            var1 = input()
+            if var1 == "y":
+                if len(self.inventory) < 5:
+                    self.addToInventory(generateditem)
+                else:
+                    while True:
+                        animatedPrint("Ditt Inventory är fullt! Vill du kasta bort ett Item?\n[y/n]: ", newLine=False)
+                        var = input("")
+                        if var == "y":
+                            self.showInventory(deleteitems=False)
+                            animatedPrint("\nVälj bort ett Item att kasta: ", newLine=False)
+                            val = int(input())
+                            try:
+                                self.removeFromInventory(val, True)
+                                self.addToInventory(generateditem)
+                                spel(self)
+                                break
+                            except IndexError as e:
+                                animatedPrint("Ogiltigt val!")
+                                animatedPrint("Klicka på enter för att fortsätta", False)
+                                input()
+                                clearConsole()
+                        elif var == "n":
+                            spel(self)
+                            break
+                        else:
+                            animatedPrint("Ogiltigt val!")
+                            animatedPrint("Klicka på enter för att fortsätta", False)
+                            input()
+                            clearConsole()
+            elif var1 == "n":
+                clearConsole()
+                spel(self) 
+                break  
             else:
-                animatedPrint("Ditt Inventory är fullt! Vill du kasta bort ett Item?", newLine=False)
-                var = input()
-                if var == "Nej":
-                    animatedPrint("Välj bort ett Item att kasta: ", newLine=False)
-                    self.showInventory(deleteitems=False)
-                    var = input()
-                    self.removeFromInventory(var)           
-        elif var == "n":
-            pass
-        spel(self)       
+                animatedPrint("Ogiltigt val!")
+                animatedPrint("Klicka på enter för att fortsätta", False)
+                input()
+                clearConsole()
         
     def monster(self): #Skapar ett monster med xyz damage och tillkallar takedamage
         clearConsole()
@@ -295,7 +327,7 @@ def room(currentPlayer: Player):
     clearConsole()
     if val in ["1", "2", "3"]:
         var = random.randint(0, 2) 
-        
+        var = 0
         if var == 0:
             currentPlayer.kista()
             pass
@@ -359,6 +391,11 @@ def start():
             animatedPrint("Vad heter du?: ", False)
             name = input("")
             spelare = Player(name, 3, 15, 0, 0)
+            spelare.addToInventory(generateItem())
+            spelare.addToInventory(generateItem())
+            spelare.addToInventory(generateItem())
+            spelare.addToInventory(generateItem())
+            spelare.addToInventory(generateItem())
             spel(spelare)
         elif var == "2":
             showCredits()
