@@ -390,11 +390,6 @@ def start():
             animatedPrint("Vad heter du?: ", False)
             name = input("")
             spelare = Player(name, 3, 15, 0, 0)
-            spelare.addToInventory(generateItem())
-            spelare.addToInventory(generateItem())
-            spelare.addToInventory(generateItem())
-            spelare.addToInventory(generateItem())
-            spelare.addToInventory(generateItem())
             spel(spelare)
         elif var == "2":
             showCredits()
