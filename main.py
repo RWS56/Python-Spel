@@ -55,13 +55,13 @@ class Player():
             if len(self.inventory) == 0:
                 animatedPrint("Du har inga items att ta bort :(")
             else:
-                animatedPrint(f"Du tog bort {self.inventory[indexPlusOne - 1].itemName}!\n Tryck valfri tangent för att gå tillbaka.") #La till så att man ser vad som blev borttagget ur inventory
+                animatedPrint(f"Du tog bort {self.inventory[indexPlusOne - 1].itemName}!\nKlicka på retur för att fortsätta.") #La till så att man ser vad som blev borttagget ur inventory
                 input()
                 self.bonus(False, indexPlusOne - 1)
                 self.inventory.pop(int(indexPlusOne) - 1)
                 self.showInventory()
         if kista == True:
-            animatedPrint(f"Du tog bort {self.inventory[indexPlusOne - 1].itemName}!\n Tryck valfri tangent för att gå tillbaka.") #La till så att man ser vad som blev borttagget ur inventory
+            animatedPrint(f"Du tog bort {self.inventory[indexPlusOne - 1].itemName}!\nTryck på retur för att gå tillbaka.") #La till så att man ser vad som blev borttagget ur inventory
             input()
             self.bonus(False, indexPlusOne - 1)
             self.inventory.pop(int(indexPlusOne) - 1)
@@ -305,7 +305,7 @@ def win():
 def showCredits():
     clearConsole()
     animatedPrint("Skapat av: Sarah, Ruben, Ye")
-    animatedPrint("Tryck valfri tangent för att återvända")
+    animatedPrint("Klicka på retur för att fortsätta")
     input()
     start()
 
@@ -327,7 +327,6 @@ def room(currentPlayer: Player):
     clearConsole()
     if val in ["1", "2", "3"]:
         var = random.randint(0, 2) 
-        var = 0
         if var == 0:
             currentPlayer.kista()
             pass
