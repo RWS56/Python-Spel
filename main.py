@@ -186,6 +186,8 @@ class Player():
             if var1 == "y":
                 if len(self.inventory) < 5:
                     self.addToInventory(generateditem)
+                    spel(self)
+                    break
                 else:
                     while True:
                         animatedPrint("Ditt Inventory är fullt! Vill du kasta bort ett Item?\n[y/n]: ", newLine=False)
@@ -327,6 +329,7 @@ def room(currentPlayer: Player):
     clearConsole()
     if val in ["1", "2", "3"]:
         var = random.randint(0, 2) 
+        var = 0
         if var == 0:
             currentPlayer.kista()
             pass
