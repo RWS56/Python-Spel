@@ -238,12 +238,12 @@ class Player():
             self.Levelup(levelsToUp)
             animatedPrint("Klicka på enter för att fortsätta ", False)
             input("")
+            spel(self)
         else:
             animatedPrint("Du och monstret var lika starka så ingenting hände!")
-        
-        animatedPrint("Klicka på retur för att fortsätta", False)
-        input("")
-        spel(self)
+            animatedPrint("Klicka på enter för att fortsätta", False)
+            input("")
+            spel(self)
         
 class Item():
     """
